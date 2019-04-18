@@ -1,1 +1,1 @@
-export * from "./tests/watcher.tests";
+export * from "./tests/Watcher";

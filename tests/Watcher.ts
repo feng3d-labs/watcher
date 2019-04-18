@@ -1,6 +1,4 @@
-import { watcher } from "../src/Watcher";
-
-
+import { watcher } from "..";
 
 QUnit.module("watcher", () =>
 {
@@ -70,34 +68,6 @@ QUnit.module("watcher", () =>
         for (let i = 0; i < num; i++)
         {
             o.a = i;
-        }
-        var t2 = Date.now() - s;
-
-        assert.ok(true, `${t1}->${t2} watch与unwatch操作后性能 1->${t1 / t2}`);
-    });
-
-    QUnit.test("watch Vector3 性能", (assert) =>
-    {
-        var o = new feng3d.Vector3();
-
-        var num = 10000000;
-        var out = "";
-        var f = () => { out += "f"; };
-        var s = Date.now();
-        for (let i = 0; i < num; i++)
-        {
-            o.x = i;
-        }
-        var t1 = Date.now() - s;
-        out = ""
-        watcher.watch(o, "x", f);
-        o.x = 2;
-        watcher.unwatch(o, "x", f);
-        o.x = 3;
-        var s = Date.now();
-        for (let i = 0; i < num; i++)
-        {
-            o.x = i;
         }
         var t2 = Date.now() - s;
 
