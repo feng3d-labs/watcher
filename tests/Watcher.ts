@@ -1,5 +1,3 @@
-import { watcher } from "..";
-
 QUnit.module("watcher", () =>
 {
     QUnit.test("watch Object", (assert) =>
@@ -8,7 +6,7 @@ QUnit.module("watcher", () =>
         var out = "";
         var f = (h, p, o) => { out += "f"; };
         var f1 = (h, p, o) => { out += "f1"; };
-        watcher.watch(o, "a", f);
+        feng3d.watcher.watch(o, "a", f);
         watcher.watch(o, "a", f1);
         o.a = 2;
         watcher.unwatch(o, "a", f);

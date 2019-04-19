@@ -9,8 +9,7 @@
     "lib": [
       "es2015"
     ],
-    // "outFile": "out/index.js"
-    "outDir": "debug"
+    "outFile": "out/index.js"
   },
   "include": [
     "src"
