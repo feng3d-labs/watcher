@@ -1,0 +1,52 @@
+{
+  "bundle": {
+    "commonSourceDirectory": "..",
+    "sourceFiles": [
+      "../src/Watcher.ts"
+    ],
+    "js": {
+      "sections": [
+        {
+          "pos": 0,
+          "end": 13,
+          "kind": "prologue",
+          "data": "use strict"
+        },
+        {
+          "pos": 15,
+          "end": 13800,
+          "kind": "text"
+        }
+      ],
+      "sources": {
+        "prologues": [
+          {
+            "file": 0,
+            "text": "",
+            "directives": [
+              {
+                "pos": -1,
+                "end": -1,
+                "expression": {
+                  "pos": -1,
+                  "end": -1,
+                  "text": "use strict"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "dts": {
+      "sections": [
+        {
+          "pos": 0,
+          "end": 4220,
+          "kind": "text"
+        }
+      ]
+    }
+  },
+  "version": "3.9.7"
+}

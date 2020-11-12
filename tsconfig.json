@@ -1,17 +1,25 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "declarationMap": true,
-    "declaration": true,
-    "experimentalDecorators": true,
-    "lib": [
-      "es2015"
+    "compilerOptions": {
+        "target": "ES5",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "declarationMap": true,
+        "declaration": true,
+        "composite": true,
+        "strict": true,
+        "experimentalDecorators": true,
+        "outFile": "out/watcher.js",
+        "lib": [
+            "ES2015",
+            "DOM",
+        ],
+    },
+    "files": [
+        "src/Watcher.ts",
     ],
-    "outFile": "out/index.js"
-  },
-  "include": [
-    "src"
-  ]
+    "references": [
+        {
+            "path": "../polyfill"
+        }
+    ]
 }
