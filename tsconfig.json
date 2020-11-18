@@ -14,8 +14,8 @@
             "DOM",
         ],
     },
-    "include": [
-        "src/**/*.ts",
+    "files": [
+        "src/Watcher.ts",
     ],
     "references": [
         {
