@@ -6,7 +6,7 @@ export default [
         input: 'src/index.ts',
         output: {
             file: './dist/index.js',
-            name: 'tscompile',
+            name: 'watcher',
             format: 'umd',
             sourcemap: true
         },
@@ -18,7 +18,7 @@ export default [
         input: 'src/index.ts',
         output: {
             file: './dist/index.d.ts',
-            name: 'tscompile',
+            name: 'watcher',
             format: 'es',
             footer: 'export as namespace watcher;'
         },
