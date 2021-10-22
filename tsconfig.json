@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "target": "ES5",
+        "module": "CommonJS",
         "noImplicitAny": false,
         "sourceMap": true,
         "declarationMap": true,
@@ -8,18 +9,19 @@
         "composite": true,
         "strict": true,
         "experimentalDecorators": true,
-        "outFile": "out/watcher.js",
         "lib": [
             "ES2015",
             "DOM",
         ],
     },
-    "files": [
-        "src/Watcher.ts",
+    "include": [
+        "src/**/*.ts",
+        "test/**/*.ts",
     ],
-    "references": [
-        {
-            "path": "../polyfill"
+    "ts-node": {
+        "files": true,
+        "compilerOptions": {
+            "esModuleInterop": true
         }
-    ]
+    }
 }

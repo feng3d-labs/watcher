@@ -1,6 +1,8 @@
-QUnit.module("watcher", () =>
+import { deepEqual } from 'assert';
+
+describe("watcher", () =>
 {
-    QUnit.test("watch Object", (assert) =>
+    it("watch Object", () =>
     {
         var o = { a: 1 };
         var out = "";
@@ -14,7 +16,7 @@ QUnit.module("watcher", () =>
         assert.ok(out == "ff1f1", out);
     });
 
-    QUnit.test("watch custom A", (assert) =>
+    it("watch custom A", () =>
     {
         class A
         {
@@ -44,7 +46,7 @@ QUnit.module("watcher", () =>
         assert.ok(num == 3);
     });
 
-    QUnit.test("watch Object 性能", (assert) =>
+    it("watch Object 性能", () =>
     {
         var o = { a: 1 };
 
@@ -72,7 +74,7 @@ QUnit.module("watcher", () =>
         assert.ok(true, `${t1}->${t2} watch与unwatch操作后性能 1->${t1 / t2}`);
     });
 
-    QUnit.test("watchchain Object", (assert) =>
+    it("watchchain Object", () =>
     {
         var o = { a: { b: { c: 1 } } };
         var out = "";
