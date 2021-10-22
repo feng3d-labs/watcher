@@ -419,35 +419,37 @@ type gPartial<T> = {
 
 /**
  * 从对象自身或者对象的原型中获取属性描述
- * 
+ *
  * @param object 对象
  * @param property 属性名称
  */
 function getPropertyDescriptor(object: Object, property: string): PropertyDescriptor | undefined
 {
-    var data = Object.getOwnPropertyDescriptor(object, property);
+    const data = Object.getOwnPropertyDescriptor(object, property);
     if (data)
     {
         return data;
     }
-    var prototype = Object.getPrototypeOf(object);
+    const prototype = Object.getPrototypeOf(object);
     if (prototype)
     {
         return getPropertyDescriptor(prototype, property);
     }
+
     return undefined;
 }
 
 /**
  * 判断对象是否为null或者undefine
- * 
- * @param obj 
- * @returns 
+ *
+ * @param obj
+ * @returns
  */
 function objectIsEmpty(obj: any)
 {
     if (obj === undefined || obj === null)
-        return true;
+    { return true; }
+
     return false;
 }
 
@@ -458,80 +460,82 @@ type PropertyNames<T> = NonTypePropertyNames<T, Function>;
 
 /**
  * 获取T类型中除值为KT类型以外的所有键
- * 
+ *
  * ```
  * class A
  * {
  *      a = 1;
  *      f(){}
  * }
- * 
+ *
  * var a: NonTypePropertyNames<A, number>; //var a:"f"
  * var a1: NonTypePropertyNames<A, Function>; //var a:"a"
- * 
+ *
  * ```
  */
 type NonTypePropertyNames<T, KT> = { [K in keyof T]: T[K] extends KT ? never : K }[keyof T];
 
 /**
  * 获取对象对应属性上的值
- * 
+ *
  * @param object 对象
  * @param property 属性名称，可以是 "a" 或者 "a.b" 或者 ["a","b"]
  */
 function getObjectPropertyValue(object: Object, property: string | string[])
 {
-    if (typeof property === "string") property = property.split(".");
-    var value = object;
-    var len = property.length;
+    if (typeof property === 'string') property = property.split('.');
+    let value = object;
     for (let i = 0; i < property.length; i++)
     {
         if (objectIsEmpty(value)) return undefined;
         value = value[property[i]];
     }
+
     return value;
 }
 
 /**
  * 获取对象上属性链列表
- * 
+ *
  * 例如 object值为{ a: { b: { c: 1 }, d: 2 } }时则返回 ["a.b.c","a.d"]
- * 
+ *
  * @param object 对象
  */
 function getObjectPropertyChains(object: Object): string[]
 {
-    var result: string[] = [];
+    const result: string[] = [];
     // 属性名称列表
-    var propertys = Object.keys(object);
+    const propertys = Object.keys(object);
     // 属性所属对象列表
-    var hosts = new Array(propertys.length).fill(object);
+    const hosts = new Array(propertys.length).fill(object);
     // 父属性所在编号列表
-    var parentPropertyIndices = new Array(propertys.length).fill(-1);
+    const parentPropertyIndices = new Array(propertys.length).fill(-1);
     // 处理到的位置
-    var index = 0;
+    let index = 0;
     while (index < propertys.length)
     {
-        var host = hosts[index];
-        var cp = propertys[index];
-        var cv = host[cp];
-        var vks: string[];
+        const host = hosts[index];
+        const cp = propertys[index];
+        const cv = host[cp];
+        let vks: string[];
         if (objectIsEmpty(cv) || isBaseType(cv) || (vks = Object.keys(cv)).length === 0)
         {
             // 处理叶子属性
-            var ps = [cp];
-            var ci = index;
+            const ps = [cp];
+            let ci = index;
             // 查找并组合属性链
             while ((ci = parentPropertyIndices[ci]) !== -1)
             {
                 ps.push(propertys[ci]);
             }
             ps.reverse();
-            result.push(ps.join("."));
-        } else
+            result.push(ps.join('.'));
+        }
+        else
         {
             // 处理中间属性
-            vks.forEach(k =>
+            // eslint-disable-next-line no-loop-func
+            vks.forEach((k) =>
             {
                 propertys.push(k);
                 hosts.push(cv);
@@ -541,6 +545,7 @@ function getObjectPropertyChains(object: Object): string[]
 
         index++;
     }
+
     return result;
 }
 
@@ -549,13 +554,14 @@ function getObjectPropertyChains(object: Object): string[]
  */
 function isBaseType(object: any): boolean
 {
-    //基础类型
+    // 基础类型
     if (
         object === undefined || object === null
-        || typeof object === "boolean"
-        || typeof object === "string"
-        || typeof object === "number"
+        || typeof object === 'boolean'
+        || typeof object === 'string'
+        || typeof object === 'number'
     )
-        return true;
+    { return true; }
+
     return false;
 }

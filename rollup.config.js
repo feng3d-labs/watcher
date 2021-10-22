@@ -20,7 +20,7 @@ export default [
             file: './dist/index.d.ts',
             name: 'tscompile',
             format: 'es',
-            footer: 'export as namespace tscompile;'
+            footer: 'export as namespace watcher;'
         },
         plugins: [
             typescript({ clean: true, tsconfigOverride: { compilerOptions: { module: 'ES2015', declaration: false, declarationMap: false } } }),
