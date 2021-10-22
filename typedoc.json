@@ -1,8 +1,8 @@
 {
-    "name": "@gamecreator/tscompile",
+    "name": "@feng3d/watcher",
     "entryPoints": [
         "src/index.ts"
     ],
-    "sourcefile-url-prefix":"http://192.168.110.236:8080/gamecreator/tscompile/tree/master/src/",
+    "sourcefile-url-prefix":"https://gitee.com/feng3d/watcher/tree/master/src/",
     "out": "docs"
 }

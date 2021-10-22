@@ -1,4 +1,4 @@
-import { deepEqual } from 'assert';
+import { ok } from 'assert';
 import { watcher } from '../src';
 
 describe('watcher', () =>
@@ -7,14 +7,14 @@ describe('watcher', () =>
     {
         const o = { a: 1 };
         let out = '';
-        const f = (h, p, o) => { out += 'f'; };
-        const f1 = (h, p, o) => { out += 'f1'; };
+        const f = (_h, _p, _o) => { out += 'f'; };
+        const f1 = (_h, _p, _o) => { out += 'f1'; };
         watcher.watch(o, 'a', f);
         watcher.watch(o, 'a', f1);
         o.a = 2;
         watcher.unwatch(o, 'a', f);
         o.a = 3;
-        assert.ok(out === 'ff1f1', out);
+        ok(out === 'ff1f1', out);
     });
 
     it('watch custom A', () =>
@@ -33,18 +33,18 @@ describe('watcher', () =>
             private _a = 1;
         }
         const o = new A();
-        var num = 0;
+        let num = 0;
         let out = '';
-        const f = (h, p, o) => { out += 'f'; };
-        const f1 = (h, p, o) => { out += 'f1'; };
+        const f = (_h, _p, _o) => { out += 'f'; };
+        const f1 = (_h, _p, _o) => { out += 'f1'; };
         watcher.watch(o, 'a', f);
         watcher.watch(o, 'a', f1);
         o.a = 2;
-        assert.ok(num === 2);
+        ok(num === 2);
         watcher.unwatch(o, 'a', f);
         o.a = 3;
-        assert.ok(out === 'ff1f1', out);
-        assert.ok(num === 3);
+        ok(out === 'ff1f1', out);
+        ok(num === 3);
     });
 
     it('watch Object 性能', () =>
@@ -54,66 +54,67 @@ describe('watcher', () =>
         const num = 10000000;
         let out = '';
         const f = () => { out += 'f'; };
-        var s = Date.now();
+        let s = Date.now();
         for (let i = 0; i < num; i++)
         {
             o.a = i;
         }
         const t1 = Date.now() - s;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         out = '';
         watcher.watch(o, 'a', f);
         o.a = 2;
         watcher.unwatch(o, 'a', f);
         o.a = 3;
-        var s = Date.now();
+        s = Date.now();
         for (let i = 0; i < num; i++)
         {
             o.a = i;
         }
         const t2 = Date.now() - s;
 
-        assert.ok(true, `${t1}->${t2} watch与unwatch操作后性能 1->${t1 / t2}`);
+        ok(true, `${t1}->${t2} watch与unwatch操作后性能 1->${t1 / t2}`);
     });
 
     it('watchchain Object', () =>
     {
         const o = { a: { b: { c: 1 } } };
         let out = '';
-        const f = (h, p, o) => { out += 'f'; };
-        const f1 = (h, p, o) => { out += 'f1'; };
+        const f = (_h: any, _p: any, _o: any) => { out += 'f'; };
+        const f1 = (_h, _p, _o) => { out += 'f1'; };
         watcher.watchchain(o, 'a.b.c', f);
         watcher.watchchain(o, 'a.b.c', f1);
         o.a.b.c = 2;
         watcher.unwatchchain(o, 'a.b.c', f);
         o.a.b.c = 3;
-        assert.ok(out === 'ff1f1', out);
+        ok(out === 'ff1f1', out);
         //
         out = '';
         watcher.unwatchchain(o, 'a.b.c', f1);
         o.a.b.c = 4;
-        assert.ok(out === '', out);
+        ok(out === '', out);
         //
         out = '';
         watcher.watchchain(o, 'a.b.c', f);
         o.a.b.c = 4;
         o.a.b.c = 5;
-        assert.ok(out === 'f', out);
+        ok(out === 'f', out);
         //
         out = '';
         o.a = { b: { c: 1 } };
         o.a.b.c = 3;
-        assert.ok(out === 'ff', `out:${out}`);
+        ok(out === 'ff', `out:${out}`);
         //
         out = '';
         watcher.unwatchchain(o, 'a.b.c', f);
         o.a.b.c = 4;
-        assert.ok(out === '', `out:${out}`);
+        ok(out === '', `out:${out}`);
         //
         out = '';
         watcher.watchchain(o, 'a.b.c', f);
         o.a = <any>null;
         o.a = { b: { c: 1 } };
         o.a.b.c = 5;
-        assert.ok(out === 'fff', out);
+        ok(out === 'fff', out);
     });
 });
