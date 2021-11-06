@@ -3,6 +3,6 @@
     "entryPoints": [
         "src/index.ts"
     ],
-    "sourcefile-url-prefix":"https://gitee.com/feng3d/watcher/tree/master/src/",
-    "out": "public/docs"
+    "sourcefile-url-prefix":"https://gitlab.com/feng3d/watcher/tree/master/src/",
+    "out": "docs"
 }
