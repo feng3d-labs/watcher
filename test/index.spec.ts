@@ -17,6 +17,21 @@ describe('watcher', () =>
         ok(out === 'ff1f1', out);
     });
 
+    it('bind', () =>
+    {
+        const o1 = { a: 1 };
+        const o2 = { a: 1 };
+
+        watcher.bind(o1, 'a', o2, 'a');
+
+        o1.a = 2;
+        ok(o1.a == o2.a && o2.a === 2);
+        
+        o2.a = 5;
+        ok(o1.a == o2.a && o1.a === 5);
+
+    });
+
     it('watch custom A', () =>
     {
         class A

@@ -8,6 +8,7 @@
         "declaration": true,
         "strict": true,
         "experimentalDecorators": true,
+        "noEmit": true,
         "lib": [
             "ES2015",
             "DOM",
