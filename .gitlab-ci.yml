@@ -3,11 +3,9 @@ image: alpine:latest
 pages:
   stage: deploy
   script:
-    - npm i
-    - npm run docs
+  - echo 'Nothing to do...'
   artifacts:
     paths:
-    - public
-    expire_in: 1 day
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - docs
+  only:
+  - master

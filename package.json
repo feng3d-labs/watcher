@@ -13,7 +13,7 @@
     "lint": "eslint --ext .js --ext .ts src test rollup.config.js --ignore-path .gitignore --max-warnings 0",
     "lintfix": "npm run lint -- --fix",
     "test": "mocha",
-    "docs": "typedoc"
+    "docs": "rimraf docs && typedoc"
   },
   "repository": {
     "type": "git",
