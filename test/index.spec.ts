@@ -59,6 +59,7 @@ describe('watcher', () =>
         watcher.unwatch(o, 'a', f);
         o.a = 3;
         ok(out === 'ff1f1', out);
+        // @ts-ignore
         ok(num === 3);
     });
 
