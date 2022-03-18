@@ -2,18 +2,26 @@
   "name": "@feng3d/watcher",
   "version": "0.3.9",
   "description": "对象属性监听器",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "bundle": "dist/index.js",
+  "bundleName": "watcher",
+  "bundle:types": "dist/index.d.ts",
   "author": "feng",
   "license": "MIT",
   "scripts": {
-    "prebuild": "rimraf dist/*",
-    "build": "rimraf dist/* && rollup -c",
-    "watch": "rollup -c -w ",
+    "prebuild": "rimraf lib",
+    "prebundle": "rimraf dist",
+    "build": "tsc -b",
+    "watch": "tsc -b -w",
+    "bundle": "rollup -c",
+    "bundle:watch": "rollup -c -w ",
     "lint": "eslint --ext .js --ext .ts src test rollup.config.js --ignore-path .gitignore --max-warnings 0",
     "lintfix": "npm run lint -- --fix",
     "test": "mocha",
-    "docs": "rimraf public && typedoc"
+    "docs": "rimraf public && typedoc",
+    "publish:pre": "npm version patch && npm run build && npm run bundle",
+    "publish": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -23,9 +31,13 @@
     "access": "public"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "lib",
+    "src",
+    "readme"
   ],
   "devDependencies": {
+    "@types/node": "^16.11.7",
     "@types/mocha": "^8.2.3",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",

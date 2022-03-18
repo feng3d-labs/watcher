@@ -6,17 +6,15 @@
         "sourceMap": true,
         "declarationMap": true,
         "declaration": true,
-        "strict": true,
         "experimentalDecorators": true,
-        "noEmit": true,
         "lib": [
             "ES2015",
             "DOM",
         ],
+        "outDir": "lib"
     },
     "include": [
         "src/**/*.ts",
-        "test/**/*.ts",
     ],
     "ts-node": {
         "files": true,
