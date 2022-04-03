@@ -61,7 +61,7 @@ publish:
     # If the package.json version has not yet been published, run `npm publish`.
     - |
       if [[ $(npm view "${NPM_PACKAGE_NAME}" versions) != *"'${NPM_PACKAGE_VERSION}'"* ]]; then
-        npm version ${NPM_PACKAGE_VERSION}
+        git tag ${NPM_PACKAGE_VERSION}
         npm run build:prod
         npm publish
         git push
