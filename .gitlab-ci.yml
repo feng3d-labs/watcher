@@ -10,7 +10,7 @@ cache:
     - node_modules/
 
 pages:
-  stage: web
+  stage: deploy
   script:
   - npm install
   - npm run docs
@@ -22,7 +22,7 @@ pages:
 
 publish:
   image: node:latest
-  stage: publish
+  stage: deploy
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME =~ /^v\d+\.\d+\.\d+.*$/
       changes:
