@@ -25,11 +25,10 @@ describe('watcher', () =>
         watcher.bind(o1, 'a', o2, 'a');
 
         o1.a = 2;
-        ok(o1.a == o2.a && o2.a === 2);
-        
-        o2.a = 5;
-        ok(o1.a == o2.a && o1.a === 5);
+        ok(o1.a === o2.a && o2.a === 2);
 
+        o2.a = 5;
+        ok(o1.a === o2.a && o1.a === 5);
     });
 
     it('watch custom A', () =>
@@ -59,8 +58,7 @@ describe('watcher', () =>
         watcher.unwatch(o, 'a', f);
         o.a = 3;
         ok(out === 'ff1f1', out);
-        // @ts-ignore
-        ok(num === 3);
+        ok((num as any) === 3);
     });
 
     it('watch Object 性能', () =>
