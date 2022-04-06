@@ -448,7 +448,9 @@ function getPropertyDescriptor(object: Object, property: string): PropertyDescri
 function objectIsEmpty(obj: any)
 {
     if (obj === undefined || obj === null)
-    { return true; }
+    {
+        return true;
+    }
 
     return false;
 }
