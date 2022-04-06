@@ -235,18 +235,6 @@
         "id-blacklist": 0,
         "id-length": 0,
         "id-match": 0,
-        "indent": [
-            1,
-            4,
-            {
-                "SwitchCase": 1,
-                "VariableDeclarator": {
-                    "var": 1,
-                    "let": 1,
-                    "const": 1
-                }
-            }
-        ],
         "jsx-quotes": [
             1,
             "prefer-double"
