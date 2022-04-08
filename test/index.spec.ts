@@ -1,5 +1,6 @@
-import { ok } from 'assert';
-import { watcher } from '../src';
+import { Vector2, Vector3, Vector4 } from '@feng3d/math';
+import { equal, ok } from 'assert';
+import { watcher, __watchchains__ } from '../src';
 
 describe('watcher', () =>
 {
@@ -130,5 +131,76 @@ describe('watcher', () =>
         o.a = { b: { c: 1 } };
         o.a.b.c = 5;
         ok(out === 'fff', out);
+    });
+
+    it('bind unbind', () =>
+    {
+        const vec2 = new Vector2();
+        const vec3 = new Vector3();
+        const vec4 = new Vector4();
+
+        watcher.bind(vec2, 'x', vec3, 'x');
+        watcher.bind(vec2, 'x', vec4, 'x');
+
+        let v = Math.random();
+
+        vec2.x = v;
+        equal(vec2.x, v);
+        equal(vec2.x, vec3.x);
+        equal(vec2.x, vec4.x);
+
+        vec4.x = v = Math.random();
+        equal(vec2.x, v);
+        equal(vec2.x, vec3.x);
+        equal(vec2.x, vec4.x);
+
+        watcher.unbind(vec3, 'x', vec2, 'x');
+        watcher.unbind(vec2, 'x', vec4, 'x');
+
+        vec4.x = v = Math.random();
+        equal(vec4.x, v);
+        equal(vec2.x, vec3.x);
+
+        ok(vec2.x !== v);
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        ok(watcher._binds.length === 0);
+    });
+
+    it('watchobject', () =>
+    {
+        const o = { a: { b: { c: 1 }, d: 2 } };
+        let out = '';
+        const f = (_h, _p, _o) => { out += 'f'; };
+
+        watcher.watchobject(o, { a: { b: { c: null }, d: null } }, f);
+        // 添加监听后会自动生成 属性__watchchains__
+        ok(!!o[__watchchains__]);
+
+        out = '';
+        o.a.b.c = 10; // 调用一次函数f
+        o.a.d = 10;// 调用一次函数f
+        equal(out, 'ff');
+
+        watcher.unwatchobject(o, { a: { b: { c: null }, d: null } }, f);
+        // 添加监听后会自动生成 属性__watchchains__
+        ok(!o[__watchchains__]);
+
+        out = '';
+        o.a.b.c = 10; // 调用一次函数f
+        o.a.d = 10;// 调用一次函数f
+        equal(out, '');
+
+        // 监听所有属性
+        out = '';
+        watcher.watchobject(o, o, f);
+        ok(!!o[__watchchains__]);
+        o.a.d = 100;
+        o.a.b.c = 100;
+        equal(out, 'ff');
+
+        watcher.unwatchobject(o, o, f);
+        ok(!o[__watchchains__]);
     });
 });
