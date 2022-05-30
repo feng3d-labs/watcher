@@ -31,8 +31,7 @@ async function main()
         typescript(),
         string({
             include: [
-                '**/*.frag',
-                '**/*.vert',
+                '**/*.glsl',
             ],
         }),
         replace({
