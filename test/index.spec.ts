@@ -1,4 +1,4 @@
-import { Vector2, Vector3, Vector4 } from '@feng3d/math';
+// import { Vector2, Vector3, Vector4 } from '@feng3d/math';
 import { equal, ok } from 'assert';
 import { watcher, __watchchains__ } from '../src';
 
@@ -133,36 +133,36 @@ describe('watcher', () =>
         ok(out === 'fff', out);
     });
 
-    it('bind unbind', () =>
-    {
-        const vec2 = new Vector2();
-        const vec3 = new Vector3();
-        const vec4 = new Vector4();
+    // it('bind unbind', () =>
+    // {
+    //     const vec2 = new Vector2();
+    //     const vec3 = new Vector3();
+    //     const vec4 = new Vector4();
 
-        watcher.bind(vec2, 'x', vec3, 'x');
-        watcher.bind(vec2, 'x', vec4, 'x');
+    //     watcher.bind(vec2, 'x', vec3, 'x');
+    //     watcher.bind(vec2, 'x', vec4, 'x');
 
-        let v = Math.random();
+    //     let v = Math.random();
 
-        vec2.x = v;
-        equal(vec2.x, v);
-        equal(vec2.x, vec3.x);
-        equal(vec2.x, vec4.x);
+    //     vec2.x = v;
+    //     equal(vec2.x, v);
+    //     equal(vec2.x, vec3.x);
+    //     equal(vec2.x, vec4.x);
 
-        vec4.x = v = Math.random();
-        equal(vec2.x, v);
-        equal(vec2.x, vec3.x);
-        equal(vec2.x, vec4.x);
+    //     vec4.x = v = Math.random();
+    //     equal(vec2.x, v);
+    //     equal(vec2.x, vec3.x);
+    //     equal(vec2.x, vec4.x);
 
-        watcher.unbind(vec3, 'x', vec2, 'x');
-        watcher.unbind(vec2, 'x', vec4, 'x');
+    //     watcher.unbind(vec3, 'x', vec2, 'x');
+    //     watcher.unbind(vec2, 'x', vec4, 'x');
 
-        vec4.x = v = Math.random();
-        equal(vec4.x, v);
-        equal(vec2.x, vec3.x);
+    //     vec4.x = v = Math.random();
+    //     equal(vec4.x, v);
+    //     equal(vec2.x, vec3.x);
 
-        ok(vec2.x !== v);
-    });
+    //     ok(vec2.x !== v);
+    // });
 
     it('watchobject', () =>
     {
