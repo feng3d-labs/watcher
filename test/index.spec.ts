@@ -162,10 +162,6 @@ describe('watcher', () =>
         equal(vec2.x, vec3.x);
 
         ok(vec2.x !== v);
-
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        ok(watcher._binds.length === 0);
     });
 
     it('watchobject', () =>
