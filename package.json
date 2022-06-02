@@ -1,6 +1,6 @@
 {
   "name": "@feng3d/watcher",
-  "version": "0.4.10",
+  "version": "0.4.11",
   "description": "对象属性监听器",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
