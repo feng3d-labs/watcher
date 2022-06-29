@@ -1,4 +1,3 @@
-// import { Vector2, Vector3, Vector4 } from '@feng3d/math';
 import { equal, ok } from 'assert';
 import { watcher, __watchchains__ } from '../src';
 
@@ -88,7 +87,8 @@ describe('watcher', () =>
         }
         const t2 = Date.now() - s;
 
-        ok(true, `${t1}->${t2} watch与unwatch操作后性能 1->${t1 / t2}`);
+        console.warn(`${t1}->${t2} watch与unwatch操作后性能 1->${t1 / t2}`);
+        ok(true);
     });
 
     it('watchchain Object', () =>
@@ -170,7 +170,7 @@ describe('watcher', () =>
         let out = '';
         const f = (_h, _p, _o) => { out += 'f'; };
 
-        watcher.watchobject(o, { a: { b: { c: null }, d: null } }, f);
+        watcher.watchobject(o, { a: { b: { c: 0 }, d: 0 } }, f);
         // 添加监听后会自动生成 属性__watchchains__
         ok(!!o[__watchchains__]);
 
@@ -179,7 +179,7 @@ describe('watcher', () =>
         o.a.d = 10;// 调用一次函数f
         equal(out, 'ff');
 
-        watcher.unwatchobject(o, { a: { b: { c: null }, d: null } }, f);
+        watcher.unwatchobject(o, { a: { b: { c: 0 }, d: 0 } }, f);
         // 添加监听后会自动生成 属性__watchchains__
         ok(!o[__watchchains__]);
 

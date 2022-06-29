@@ -352,12 +352,12 @@ export class Watcher
      *
      * @param object 被监听对象
      * @param property 被监听属性 例如：{a:{b:null,d:null}} 表示监听 object.a.b 与 object.a.d 值得变化，如果property===object时表示监听对象中所有叶子属性变化。
-     * @param handler 变化回调函数 (object: T, property: string, oldValue: V) => void
+     * @param handler 变化回调函数 (newValue: any, oldValue: any, host: any, property: string) => void
      * @param thisObject 变化回调函数 this值
      */
-    watchobject<T>(object: T, property: gPartial<T>, handler: (object: any, property: string, oldValue: any) => void, thisObject?: any)
+    watchobject<T>(object: T, property: gPartial<T>, handler: (newValue: any, oldValue: any, host: any, property: string) => void, thisObject?: any)
     {
-        const chains = getObjectPropertyChains(object);
+        const chains = getObjectPropertyChains(property);
 
         chains.forEach((v) =>
         {
@@ -370,10 +370,10 @@ export class Watcher
      *
      * @param object 被监听对象
      * @param property 被监听属性 例如：{a:{b:null,d:null}} 表示监听 object.a.b 与 object.a.d 值得变化，如果property===object时表示监听对象中所有叶子属性变化。
-     * @param handler 变化回调函数 (object: T, property: string, oldValue: V) => void
+     * @param handler 变化回调函数 newValue: any, oldValue: any, host: any, property: string => void
      * @param thisObject 变化回调函数 this值
      */
-    unwatchobject<T>(object: T, property: gPartial<T>, handler?: (object: any, property: string, oldValue: any) => void, thisObject?: any)
+    unwatchobject<T>(object: T, property: gPartial<T>, handler?: (newValue: any, oldValue: any, host: any, property: string) => void, thisObject?: any)
     {
         const chains = getObjectPropertyChains(property);
 
