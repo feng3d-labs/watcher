@@ -1,25 +1,20 @@
 {
     "compilerOptions": {
         "target": "ES5",
-        "module": "CommonJS",
         "noImplicitAny": false,
         "sourceMap": true,
         "declarationMap": true,
         "declaration": true,
         "experimentalDecorators": true,
+        "composite": true,
         "lib": [
             "ES2015",
-            "DOM",
+            "DOM"
         ],
-        "outDir": "lib"
+        "outFile": "out/index.js"
     },
-    "include": [
-        "src/**/*.ts"
-    ],
-    "ts-node": {
-        "files": true,
-        "compilerOptions": {
-            "esModuleInterop": true
-        }
-    }
+    "files": [
+        //
+        "src/Watcher.ts",
+    ]
 }
