@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "declarationMap": true,
+        "declaration": true,
+        "experimentalDecorators": true,
+        "composite": true,
+        "lib": [
+            "ES2015",
+            "DOM"
+        ],
+        "outFile": "out/index.js"
+    },
+    "files": [
+        //
+        "src/Watcher.ts",
+    ]
+}
