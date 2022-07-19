@@ -11,7 +11,7 @@
             "ES2015",
             "DOM"
         ],
-        "outFile": "out/index.js"
+        "outFile": "dist/index.js"
     },
     "files": [
         //
