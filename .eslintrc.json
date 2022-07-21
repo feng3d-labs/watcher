@@ -75,7 +75,7 @@
             1,
             "property"
         ],
-        "dot-notation": 1,
+        "dot-notation": 0,
         "eqeqeq": 1,
         "guard-for-in": 0,
         "no-alert": 1,
