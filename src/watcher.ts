@@ -567,3 +567,4 @@ function isBaseType(object: any): boolean
 
     return false;
 }
+
