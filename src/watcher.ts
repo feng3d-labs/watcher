@@ -1,41 +1,3 @@
-/**
- * 观察装饰器，观察被装饰属性的变化
- *
- * @param onChange 属性变化回调  例如参数为“onChange”时，回调将会调用this.onChange(property, oldValue, newValue)
- *
- * 使用@watch后会自动生成一个带"_"的属性，例如 属性"a"会生成"_a"
- *
- * 通过使用 eval 函数 生成出 与自己手动写的set get 一样的函数，性能已经接近 手动写的get set函数。
- *
- * 性能比Watcher.watch更加高效，但还是建议使用 Watcher.watch 替代 @watch ，由于 @watch 没有对onChange更好的约束 使用 时容易出现运行时报错。
- */
-export function watch(onChange: string)
-{
-    return (target: any, property: string) =>
-    {
-        const key = `_${property}`;
-
-        console.assert(target[onChange], `在对象 ${target} 上找不到方法 ${onChange}`);
-
-        Object.defineProperty(target, property, {
-            get() { return this[key]; },
-            set(value)
-            {
-                if (this[key] === value)
-                {
-                    return;
-                }
-                const oldValue = this[key];
-
-                this[key] = value;
-                this[onChange](property, oldValue, value);
-            },
-            enumerable: true,
-            configurable: true,
-        });
-    };
-}
-
 export class Watcher
 {
     /**
@@ -45,7 +7,7 @@ export class Watcher
      *
      * @param object 被监听对象
      * @param property 被监听属性
-     * @param handler 变化回调函数 (object: T, property: string, oldValue: V) => void
+     * @param handler 变化回调函数 (newValue: V, oldValue: V, object: T, property: string) => void
      * @param thisObject 变化回调函数 this值
      */
     watch<T, K extends PropertyNames<T>, V extends T[K]>(object: T, property: K, handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any)
@@ -127,7 +89,7 @@ export class Watcher
      *
      * @param object 被监听对象
      * @param property 被监听属性
-     * @param handler 变化回调函数 (object: T, property: string, oldValue: V) => void
+     * @param handler 变化回调函数 (newValue: V, oldValue: V, object: T, property: string) => void
      * @param thisObject 变化回调函数 this值
      */
     unwatch<T, K extends PropertyNames<T>, V extends T[K]>(object: T, property: K, handler?: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any)
