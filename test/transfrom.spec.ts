@@ -1,5 +1,7 @@
-import { equal } from 'assert';
-import { watcher } from '../src';
+import { watcher } from '../src/watcher';
+
+import { assert, describe, it } from 'vitest';
+const { ok, equal, deepEqual } = assert;
 
 describe('watcher.watchobject transform', () =>
 {
@@ -17,7 +19,6 @@ describe('watcher.watchobject transform', () =>
         // 变化回调
         function onChanged(_newValue: any, _oldValue: any, _host: any, _property: string)
         {
-            console.warn(_newValue, _oldValue, _host, _property);
             changeCount++;
         }
 

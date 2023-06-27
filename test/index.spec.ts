@@ -1,5 +1,7 @@
-import { equal, ok } from 'assert';
-import { watcher, __watchchains__ } from '../src';
+import { watcher } from '../src/watcher';
+
+import { assert, describe, it } from 'vitest';
+const { ok, equal, deepEqual } = assert;
 
 describe('watcher', () =>
 {
@@ -59,36 +61,6 @@ describe('watcher', () =>
         o.a = 3;
         ok(out === 'ff1f1', out);
         ok((num as any) === 3);
-    });
-
-    it('watch Object 性能', () =>
-    {
-        const o = { a: 1 };
-
-        const num = 10000000;
-        let out = '';
-        const f = () => { out += 'f'; };
-        let s = Date.now();
-        for (let i = 0; i < num; i++)
-        {
-            o.a = i;
-        }
-        const t1 = Date.now() - s;
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        out = '';
-        watcher.watch(o, 'a', f);
-        o.a = 2;
-        watcher.unwatch(o, 'a', f);
-        o.a = 3;
-        s = Date.now();
-        for (let i = 0; i < num; i++)
-        {
-            o.a = i;
-        }
-        const t2 = Date.now() - s;
-
-        console.warn(`${t1}->${t2} watch与unwatch操作后性能 1->${t1 / t2}`);
-        ok(true);
     });
 
     it('watchchain Object', () =>
@@ -171,8 +143,6 @@ describe('watcher', () =>
         const f = (_h, _p, _o) => { out += 'f'; };
 
         watcher.watchobject(o, { a: { b: { c: 0 }, d: 0 } }, f);
-        // 添加监听后会自动生成 属性__watchchains__
-        ok(!!o[__watchchains__]);
 
         out = '';
         o.a.b.c = 10; // 调用一次函数f
@@ -180,8 +150,6 @@ describe('watcher', () =>
         equal(out, 'ff');
 
         watcher.unwatchobject(o, { a: { b: { c: 0 }, d: 0 } }, f);
-        // 添加监听后会自动生成 属性__watchchains__
-        ok(!o[__watchchains__]);
 
         out = '';
         o.a.b.c = 10; // 调用一次函数f
@@ -191,12 +159,10 @@ describe('watcher', () =>
         // 监听所有属性
         out = '';
         watcher.watchobject(o, o, f);
-        ok(!!o[__watchchains__]);
         o.a.d = 100;
         o.a.b.c = 100;
         equal(out, 'ff');
 
         watcher.unwatchobject(o, o, f);
-        ok(!o[__watchchains__]);
     });
 });

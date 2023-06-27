@@ -1,3 +1,37 @@
+/**
+ * 让T中以及所有键值中的所有键都是可选的
+ */
+type gPartial<T> = {
+    [P in keyof T]?: gPartial<T[P]>;
+};
+
+/**
+ * 选取T类型中值为非函数类型的所有键
+ */
+type PropertyNames<T> = NonTypePropertyNames<T, Function>;
+
+/**
+ * 获取T类型中除值为KT类型以外的所有键
+ *
+ * ```
+ * class A
+ * {
+ *      a = 1;
+ *      f(){}
+ * }
+ *
+ * var a: NonTypePropertyNames<A, number>; //var a:"f"
+ * var a1: NonTypePropertyNames<A, Function>; //var a:"a"
+ *
+ * ```
+ */
+type NonTypePropertyNames<T, KT> = { [K in keyof T]: T[K] extends KT ? never : K }[keyof T];
+
+/**
+ * 对象属性变化监视器。
+ *
+ * 能用getset时就不使用watch，及时为了代码美观也尽量在低频使用的地方使用。
+ */
 export class Watcher
 {
     /**
@@ -131,6 +165,40 @@ export class Watcher
                 delete object[__watchs__];
             }
         }
+    }
+
+    /**
+     * 监听对象属性的变化
+     *
+     * 注意：使用watch后获取该属性值的性能将会是原来的1/60，避免在运算密集处使用该函数。
+     *
+     * @param object 被监听对象
+     * @param property 被监听属性
+     * @param handler 变化回调函数 (newValue: V, oldValue: V, object: T, property: string) => void
+     * @param thisObject 变化回调函数 this值
+     */
+    watchs<T, K extends PropertyNames<T>, V extends T[K]>(object: T, propertys: K[], handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any)
+    {
+        propertys.forEach((v) =>
+        {
+            this.watch(object, v, handler, thisObject);
+        });
+    }
+
+    /**
+     * 取消监听对象属性的变化
+     *
+     * @param object 被监听对象
+     * @param property 被监听属性
+     * @param handler 变化回调函数 (newValue: V, oldValue: V, object: T, property: string) => void
+     * @param thisObject 变化回调函数 this值
+     */
+    unwatchs<T, K extends PropertyNames<T>, V extends T[K]>(object: T, propertys: K[], handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any)
+    {
+        propertys.forEach((v) =>
+        {
+            this.unwatch(object, v, handler, thisObject);
+        });
     }
 
     private _binds: [any, string, () => void, any, string, () => void][] = [];
@@ -358,8 +426,8 @@ interface WatchChains
     [property: string]: { handler: (newValue: any, oldValue: any, host: any, property: string) => void, thisObject: any, watchchainFun: (newValue: any, oldValue: any, host: any, property: string) => void }[];
 }
 
-export const __watchs__ = '__watchs__';
-export const __watchchains__ = '__watchchains__';
+const __watchs__ = '__watchs__';
+const __watchchains__ = '__watchchains__';
 
 function notifyListener(newValue: any, oldValue: any, host: any, property: string): void
 {
@@ -371,13 +439,6 @@ function notifyListener(newValue: any, oldValue: any, host: any, property: strin
         element.handler.call(element.thisObject, newValue, oldValue, host, property);
     });
 }
-
-/**
- * 让T中以及所有键值中的所有键都是可选的
- */
-type gPartial<T> = {
-    [P in keyof T]?: gPartial<T[P]>;
-};
 
 /**
  * 从对象自身或者对象的原型中获取属性描述
@@ -416,28 +477,6 @@ function objectIsEmpty(obj: any)
 
     return false;
 }
-
-/**
- * 选取T类型中值为非函数类型的所有键
- */
-type PropertyNames<T> = NonTypePropertyNames<T, Function>;
-
-/**
- * 获取T类型中除值为KT类型以外的所有键
- *
- * ```
- * class A
- * {
- *      a = 1;
- *      f(){}
- * }
- *
- * var a: NonTypePropertyNames<A, number>; //var a:"f"
- * var a1: NonTypePropertyNames<A, Function>; //var a:"a"
- *
- * ```
- */
-type NonTypePropertyNames<T, KT> = { [K in keyof T]: T[K] extends KT ? never : K }[keyof T];
 
 /**
  * 获取对象对应属性上的值
@@ -525,7 +564,9 @@ function isBaseType(object: any): boolean
         || typeof object === 'string'
         || typeof object === 'number'
     )
-    { return true; }
+    {
+        return true;
+    }
 
     return false;
 }
