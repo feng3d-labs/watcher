@@ -1,6 +1,6 @@
 {
   "name": "@feng3d/watcher",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "对象属性监听器",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -17,7 +17,7 @@
     "lint": "eslint --ext .js --ext .ts src test --ignore-path .gitignore --max-warnings 0",
     "lintfix": "npm run lint -- --fix",
     "docs": "typedoc",
-    "release": "npm run clean && npm run lint && npm run docs && npm run build && npm run types && npm publish",
+    "release": "npm run clean && npm run lint && npm run build && npm run docs && npm run types && npm publish",
     "prepublishOnly": "node scripts/prepublish.js",
     "postpublish": "node scripts/postpublish.js"
   },
