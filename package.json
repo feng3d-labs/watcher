@@ -1,6 +1,6 @@
 {
   "name": "@feng3d/watcher",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "对象属性监听器",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -32,7 +32,8 @@
     "dist/",
     "lib",
     "src",
-    "readme"
+    "readme",
+    "tsconfig.json"
   ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.17.0",
