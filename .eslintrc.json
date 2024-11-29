@@ -131,7 +131,7 @@
         "no-redeclare": 1,
         "no-return-assign": 0,
         "no-script-url": 1,
-        "no-self-assign": 1,
+        "no-self-assign": 0,
         "no-self-compare": 1,
         "no-sequences": 1,
         "no-unmodified-loop-condition": 1,

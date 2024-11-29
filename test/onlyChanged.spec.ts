@@ -11,7 +11,7 @@ describe('onlyChanged', () =>
 
         {
             let result = false;
-            watcher.watch(obj, "d", () => { result = true; });
+            watcher.watch(obj, 'd', () => { result = true; });
             obj.d = obj.d;
             equal(result, false);
         }
@@ -19,7 +19,7 @@ describe('onlyChanged', () =>
         {
             const onlyChanged = true;
             let result = false;
-            watcher.watch(obj, "d", () => { result = true; }, undefined, onlyChanged);
+            watcher.watch(obj, 'd', () => { result = true; }, undefined, onlyChanged);
             obj.d = obj.d;
             equal(result, false);
         }
@@ -27,14 +27,14 @@ describe('onlyChanged', () =>
         {
             const onlyChanged = false;
             let result = false;
-            watcher.watch(obj, "d", () => { result = true; }, undefined, onlyChanged);
+            watcher.watch(obj, 'd', () => { result = true; }, undefined, onlyChanged);
             obj.d = obj.d;
-            equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。 
+            equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
         }
 
         {
             let result = false;
-            watcher.watchchain(obj, "a.b", () => { result = true; });
+            watcher.watchchain(obj, 'a.b', () => { result = true; });
             obj.a.b = obj.a.b;
             equal(result, false);
         }
@@ -42,7 +42,7 @@ describe('onlyChanged', () =>
         {
             const onlyChanged = true;
             let result = false;
-            watcher.watchchain(obj, "a.b", () => { result = true; }, undefined, onlyChanged);
+            watcher.watchchain(obj, 'a.b', () => { result = true; }, undefined, onlyChanged);
             obj.a.b = obj.a.b;
             equal(result, false);
         }
@@ -50,9 +50,9 @@ describe('onlyChanged', () =>
         {
             const onlyChanged = false;
             let result = false;
-            watcher.watchchain(obj, "a.b", () => { result = true; }, undefined, onlyChanged);
+            watcher.watchchain(obj, 'a.b', () => { result = true; }, undefined, onlyChanged);
             obj.a.b = obj.a.b;
-            equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。 
+            equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
         }
 
         {
@@ -75,9 +75,7 @@ describe('onlyChanged', () =>
             let result = false;
             watcher.watchobject(obj, { a: { b: undefined } }, () => { result = true; }, undefined, onlyChanged);
             obj.a.b = obj.a.b;
-            equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。 
+            equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
         }
-
-
     });
 });
