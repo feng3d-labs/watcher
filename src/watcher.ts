@@ -94,11 +94,8 @@ export class Watcher
                 {
                     const oldValue = this[__watchs__][_property].value;
 
-                    if (!onlyChanged || oldValue !== value)
-                    {
-                        this[__watchs__][_property].value = value;
-                        notifyListener(value, oldValue, this, _property);
-                    }
+                    this[__watchs__][_property].value = value;
+                    notifyListener(value, oldValue, this, _property);
                 };
             }
             else
@@ -115,7 +112,7 @@ export class Watcher
 
         if (!has)
         {
-            propertywatchs.handlers.push({ handler, thisObject });
+            propertywatchs.handlers.push({ handler, thisObject, onlyChanged });
         }
     }
 
@@ -300,7 +297,7 @@ export class Watcher
 
             if (object[currentp])
             {
-                this.watchchain(object[currentp], nextp, handler, thisObject);
+                this.watchchain(object[currentp], nextp, handler, thisObject, onlyChanged);
             }
 
             // 添加链监听
@@ -422,7 +419,7 @@ export const watcher = new Watcher();
 
 interface Watchs
 {
-    [property: string]: { value: any, oldPropertyDescriptor: any, handlers: { handler: (newValue: any, oldValue: any, host: any, property: string) => void, thisObject: any }[] };
+    [property: string]: { value: any, oldPropertyDescriptor: any, handlers: { handler: (newValue: any, oldValue: any, host: any, property: string) => void, thisObject: any, onlyChanged: boolean }[] };
 }
 
 interface WatchChains
@@ -440,7 +437,10 @@ function notifyListener(newValue: any, oldValue: any, host: any, property: strin
 
     handlers.forEach((element) =>
     {
-        element.handler.call(element.thisObject, newValue, oldValue, host, property);
+        if (!element.onlyChanged || newValue !== oldValue)
+        {
+            element.handler.call(element.thisObject, newValue, oldValue, host, property);
+        }
     });
 }
 
