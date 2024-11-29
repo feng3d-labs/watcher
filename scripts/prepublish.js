@@ -7,11 +7,11 @@ let pkg = fs.readFileSync(pkgpath, 'utf8');
 pkg = pkg
     .replace(`"types": "./src/index.ts"`, `"types": "./lib/index.d.ts"`)
     //
-    .replace(`"module": "./src/index.ts"`, `"module": "./dist/index.mjs"`)
-    .replace(`"main": "./src/index.ts"`, `"main": "./dist/index.umd.js"`)
+    .replace(`"module": "./src/index.ts"`, `"module": "./dist/index.js"`)
+    .replace(`"main": "./src/index.ts"`, `"main": "./dist/index.umd.cjs"`)
     //
-    .replace(`"import": "./src/index.ts"`, `"import": "./dist/index.mjs"`)
-    .replace(`"require": "./src/index.ts"`, `"require": "./dist/index.umd.js"`)
+    .replace(`"import": "./src/index.ts"`, `"import": "./dist/index.js"`)
+    .replace(`"require": "./src/index.ts"`, `"require": "./dist/index.umd.cjs"`)
     ;
 
 fs.writeFileSync(pkgpath, pkg, 'utf8');
