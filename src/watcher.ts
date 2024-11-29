@@ -43,8 +43,9 @@ export class Watcher
      * @param property 被监听属性
      * @param handler 变化回调函数 (newValue: V, oldValue: V, object: T, property: string) => void
      * @param thisObject 变化回调函数 this值
+     * @param onlyChanged 值为 true 时表示只在变化时才触发回调函数，否则只要被赋值就触发回调函数。默认为 true 。
      */
-    watch<T, K extends PropertyNames<T>, V extends T[K]>(object: T, property: K, handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any)
+    watch<T, K extends PropertyNames<T>, V extends T[K]>(object: T, property: K, handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any, onlyChanged = true)
     {
         if (!Object.getOwnPropertyDescriptor(object, __watchs__))
         {
@@ -75,7 +76,7 @@ export class Watcher
                 {
                     const oldValue = this[_property];
 
-                    if (oldValue !== value)
+                    if (!onlyChanged || oldValue !== value)
                     {
                         orgSet && orgSet.call(this, value);
                         notifyListener(value, oldValue, this, _property);
@@ -93,7 +94,7 @@ export class Watcher
                 {
                     const oldValue = this[__watchs__][_property].value;
 
-                    if (oldValue !== value)
+                    if (!onlyChanged || oldValue !== value)
                     {
                         this[__watchs__][_property].value = value;
                         notifyListener(value, oldValue, this, _property);
@@ -176,12 +177,13 @@ export class Watcher
      * @param property 被监听属性
      * @param handler 变化回调函数 (newValue: V, oldValue: V, object: T, property: string) => void
      * @param thisObject 变化回调函数 this值
+     * @param onlyChanged 值为 true 时表示只在变化时才触发回调函数，否则只要被赋值就触发回调函数。默认为 true 。
      */
-    watchs<T, K extends PropertyNames<T>, V extends T[K]>(object: T, propertys: K[], handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any)
+    watchs<T, K extends PropertyNames<T>, V extends T[K]>(object: T, propertys: K[], handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any, onlyChanged = true)
     {
         propertys.forEach((v) =>
         {
-            this.watch(object, v, handler, thisObject);
+            this.watch(object, v, handler, thisObject, onlyChanged);
         });
     }
 
@@ -264,14 +266,15 @@ export class Watcher
      * @param property 被监听属性 例如："a.b"
      * @param handler 变化回调函数 (newValue: any, oldValue: any, object: any, property: string) => void
      * @param thisObject 变化回调函数 this值
+     * @param onlyChanged 值为 true 时表示只在变化时才触发回调函数，否则只要被赋值就触发回调函数。默认为 true 。
      */
-    watchchain(object: any, property: string, handler: (newValue: any, oldValue: any, object: any, property: string) => void, thisObject?: any)
+    watchchain(object: any, property: string, handler: (newValue: any, oldValue: any, object: any, property: string) => void, thisObject?: any, onlyChanged = true)
     {
         const notIndex = property.indexOf('.');
 
         if (notIndex === -1)
         {
-            this.watch(object, property, handler, thisObject);
+            this.watch(object, property, handler, thisObject, onlyChanged);
 
             return;
         }
@@ -315,7 +318,7 @@ export class Watcher
                 }
             };
 
-            this.watch(object, currentp, watchchainFun);
+            this.watch(object, currentp, watchchainFun, undefined, onlyChanged);
 
             // 记录链监听函数
             propertywatchs.push({ handler, thisObject, watchchainFun });
@@ -384,14 +387,15 @@ export class Watcher
      * @param property 被监听属性 例如：{a:{b:null,d:null}} 表示监听 object.a.b 与 object.a.d 值得变化，如果property===object时表示监听对象中所有叶子属性变化。
      * @param handler 变化回调函数 (newValue: any, oldValue: any, host: any, property: string) => void
      * @param thisObject 变化回调函数 this值
+     * @param onlyChanged 值为 true 时表示只在变化时才触发回调函数，否则只要被赋值就触发回调函数。默认为 true 。
      */
-    watchobject<T>(object: T, property: gPartial<T>, handler: (newValue: any, oldValue: any, host: any, property: string) => void, thisObject?: any)
+    watchobject<T>(object: T, property: gPartial<T>, handler: (newValue: any, oldValue: any, host: any, property: string) => void, thisObject?: any, onlyChanged = true)
     {
         const chains = getObjectPropertyChains(property);
 
         chains.forEach((v) =>
         {
-            this.watchchain(object, v, handler, thisObject);
+            this.watchchain(object, v, handler, thisObject, onlyChanged);
         });
     }
 

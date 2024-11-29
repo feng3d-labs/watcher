@@ -16,7 +16,7 @@ describe('watcher', () =>
         o.a = 2;
         watcher.unwatch(o, 'a', f);
         o.a = 3;
-        ok(out === 'ff1f1', out);
+        equal(out === 'ff1f1', true);
     });
 
     it('bind', () =>
@@ -27,10 +27,10 @@ describe('watcher', () =>
         watcher.bind(o1, 'a', o2, 'a');
 
         o1.a = 2;
-        ok(o1.a === o2.a && o2.a === 2);
+        equal(o1.a === o2.a && o2.a === 2, true);
 
         o2.a = 5;
-        ok(o1.a === o2.a && o1.a === 5);
+        equal(o1.a === o2.a && o1.a === 5, true);
     });
 
     it('watch custom A', () =>
@@ -56,11 +56,11 @@ describe('watcher', () =>
         watcher.watch(o, 'a', f);
         watcher.watch(o, 'a', f1);
         o.a = 2;
-        ok(num === 2);
+        equal(num, 2);
         watcher.unwatch(o, 'a', f);
         o.a = 3;
-        ok(out === 'ff1f1', out);
-        ok((num as any) === 3);
+        equal(out === 'ff1f1', true);
+        equal((num as any), 3);
     });
 
     it('watchchain Object', () =>
@@ -74,35 +74,35 @@ describe('watcher', () =>
         o.a.b.c = 2;
         watcher.unwatchchain(o, 'a.b.c', f);
         o.a.b.c = 3;
-        ok(out === 'ff1f1', out);
+        equal(out === 'ff1f1', true);
         //
         out = '';
         watcher.unwatchchain(o, 'a.b.c', f1);
         o.a.b.c = 4;
-        ok(out === '', out);
+        equal(out, '');
         //
         out = '';
         watcher.watchchain(o, 'a.b.c', f);
         o.a.b.c = 4;
         o.a.b.c = 5;
-        ok(out === 'f', out);
+        equal(out, 'f');
         //
         out = '';
         o.a = { b: { c: 1 } };
         o.a.b.c = 3;
-        ok(out === 'ff', `out:${out}`);
+        equal(out, 'ff', `out:${out}`);
         //
         out = '';
         watcher.unwatchchain(o, 'a.b.c', f);
         o.a.b.c = 4;
-        ok(out === '', `out:${out}`);
+        equal(out, '', `out:${out}`);
         //
         out = '';
         watcher.watchchain(o, 'a.b.c', f);
         o.a = <any>null;
         o.a = { b: { c: 1 } };
         o.a.b.c = 5;
-        ok(out === 'fff', out);
+        equal(out, 'fff', out);
     });
 
     // it('bind unbind', () =>
