@@ -7,7 +7,7 @@ describe('onlyChanged', () =>
 {
     it('onlyChanged', () =>
     {
-        
+
         {
             const obj = { a: { b: Math.random() }, d: Math.random() };
             let result = false;
@@ -15,7 +15,7 @@ describe('onlyChanged', () =>
             obj.d = obj.d;
             equal(result, false);
         }
-        
+
         {
             const obj = { a: { b: Math.random() }, d: Math.random() };
             const onlyChanged = true;
@@ -24,7 +24,7 @@ describe('onlyChanged', () =>
             obj.d = obj.d;
             equal(result, false);
         }
-        
+
         {
             const obj = { a: { b: Math.random() }, d: Math.random() };
             const onlyChanged = false;
@@ -33,7 +33,7 @@ describe('onlyChanged', () =>
             obj.d = obj.d;
             equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
         }
-        
+
         {
             const obj = { a: { b: Math.random() }, d: Math.random() };
             let result = false;
@@ -41,7 +41,7 @@ describe('onlyChanged', () =>
             obj.a.b = obj.a.b;
             equal(result, false);
         }
-        
+
         {
             const obj = { a: { b: Math.random() }, d: Math.random() };
             const onlyChanged = true;

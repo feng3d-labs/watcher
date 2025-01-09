@@ -76,11 +76,8 @@ export class Watcher
                 {
                     const oldValue = this[_property];
 
-                    if (!onlyChanged || oldValue !== value)
-                    {
-                        orgSet && orgSet.call(this, value);
-                        notifyListener(value, oldValue, this, _property);
-                    }
+                    orgSet && orgSet.call(this, value);
+                    notifyListener(value, oldValue, this, _property);
                 };
             }
             else if (!data || (!data.get && !data.set))
@@ -304,12 +301,12 @@ export class Watcher
             const watchchainFun = (newValue: any, oldValue: any) =>
             {
                 if (oldValue) this.unwatchchain(oldValue, nextp, handler, thisObject);
-                if (newValue) this.watchchain(newValue, nextp, handler, thisObject);
+                if (newValue) this.watchchain(newValue, nextp, handler, thisObject, onlyChanged);
                 // 当更换对象且监听值发生改变时触发处理函数
                 const ov = getObjectPropertyValue(oldValue, nextp);
                 const nv = getObjectPropertyValue(newValue, nextp);
 
-                if (ov !== nv)
+                if (!onlyChanged || ov !== nv)
                 {
                     handler.call(thisObject, nv, ov, newValue, nextp);
                 }
