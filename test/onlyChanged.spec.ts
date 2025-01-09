@@ -36,7 +36,6 @@ describe('onlyChanged', () =>
 
     it('onlyChanged watchchain', () =>
     {
-
         {
             const obj = { a: { b: Math.random() }, d: Math.random() };
             let result = false;
