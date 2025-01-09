@@ -5,9 +5,8 @@ const { ok, equal, deepEqual } = assert;
 
 describe('onlyChanged', () =>
 {
-    it('onlyChanged', () =>
+    it('onlyChanged watch', () =>
     {
-
         {
             const obj = { a: { b: Math.random() }, d: Math.random() };
             let result = false;
@@ -33,6 +32,10 @@ describe('onlyChanged', () =>
             obj.d = obj.d;
             equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
         }
+    });
+
+    it('onlyChanged watchchain', () =>
+    {
 
         {
             const obj = { a: { b: Math.random() }, d: Math.random() };
@@ -64,7 +67,10 @@ describe('onlyChanged', () =>
             obj.a = { b: obj.a.b };
             equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
         }
+    });
 
+    it('onlyChanged watchobject', () =>
+    {
         {
             const obj = { a: { b: Math.random() }, d: Math.random() };
             let result = false;
