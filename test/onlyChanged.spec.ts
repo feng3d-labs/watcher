@@ -58,7 +58,8 @@ describe('onlyChanged', () =>
             const obj = { a: { b: Math.random() }, d: Math.random() };
             const onlyChanged = false;
             let result = false;
-            watcher.watchchain(obj, 'a.b', () => { result = true; }, undefined, onlyChanged);
+            const handler = () => { result = true; };
+            watcher.watchchain(obj, 'a.b', handler, undefined, onlyChanged);
             obj.a.b = obj.a.b;
             equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
 
@@ -66,6 +67,11 @@ describe('onlyChanged', () =>
             result = false;
             obj.a = { b: obj.a.b };
             equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
+
+            watcher.unwatchchain(obj, 'a.b', handler, undefined);
+            result = false;
+            obj.a = { b: obj.a.b };
+            equal(result, false); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
         }
     });
 

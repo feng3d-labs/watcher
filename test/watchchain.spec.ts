@@ -10,20 +10,65 @@ describe('watchchain', () =>
 {
     it('watchchain', () =>
     {
-
         {
-            const obj = { a: { b: Math.random() }, d: Math.random() };
+            const obj = { a: { b: 1 } };
             let result = false;
             const handler = () => { result = true; };
             watcher.watchchain(obj, 'a.b', handler);
-            
+
+            equal(!!obj.a[__watchs__], true);
             equal(!!obj[__watchs__], true);
             equal(!!obj[__watchchains__], true);
-            
+
             watcher.unwatchchain(obj, 'a.b', handler);
+            equal(!!obj.a[__watchs__], false);
             equal(!!obj[__watchs__], false);
             equal(!!obj[__watchchains__], false);
         }
+    });
 
+    it('watchchain 相同子对象', () =>
+    {
+        {
+            const obj = { a: { b: 1 } };
+            const obj1 = { a: obj.a };
+            let result = false;
+            const handler = () => { result = true; };
+            watcher.watchchain(obj, 'a.b', handler);
+            equal(!!obj.a[__watchs__], true);
+            equal(!!obj[__watchs__], true);
+            equal(!!obj[__watchchains__], true);
+            
+            watcher.watchchain(obj1, 'a.b', handler);
+            equal(!!obj1.a[__watchs__], true);
+            equal(!!obj1[__watchs__], true);
+            equal(!!obj1[__watchchains__], true);
+
+            result = false;
+            obj.a.b = obj.a.b + 1;
+            equal(result, true);
+
+            result = false;
+            obj1.a.b = obj1.a.b + 1;
+            equal(result, true);
+
+            watcher.unwatchchain(obj, 'a.b', handler);
+            // equal(!!obj.a[__watchs__], true); // 由于obj与obj1公用a
+            equal(!!obj[__watchs__], false);
+            equal(!!obj[__watchchains__], false);
+
+            // equal(!!obj1.a[__watchs__], true);
+            equal(!!obj1[__watchs__], true);
+            equal(!!obj1[__watchchains__], true);
+
+            result = false;
+            obj.a.b = obj.a.b + 1;
+            equal(result, false);
+
+            // result = false;
+            // obj1.a.b = obj1.a.b + 1;
+            // equal(result, true);
+
+        }
     });
 });
