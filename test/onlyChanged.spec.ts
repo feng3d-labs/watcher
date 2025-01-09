@@ -30,7 +30,7 @@ describe('onlyChanged', () =>
             let result = false;
             watcher.watch(obj, 'd', () => { result = true; }, undefined, onlyChanged);
             obj.d = obj.d;
-            equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
+            equal(result, true);
         }
     });
 
@@ -61,17 +61,22 @@ describe('onlyChanged', () =>
             const handler = () => { result = true; };
             watcher.watchchain(obj, 'a.b', handler, undefined, onlyChanged);
             obj.a.b = obj.a.b;
-            equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
+            equal(result, true);
 
             //
             result = false;
             obj.a = { b: obj.a.b };
-            equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
+            equal(result, true);
+
+            //
+            result = false;
+            obj.a.b = obj.a.b;
+            equal(result, true);
 
             watcher.unwatchchain(obj, 'a.b', handler, undefined);
             result = false;
             obj.a = { b: obj.a.b };
-            equal(result, false); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
+            equal(result, false);
         }
     });
 
@@ -100,7 +105,7 @@ describe('onlyChanged', () =>
             let result = false;
             watcher.watchobject(obj, { a: { b: undefined } }, () => { result = true; }, undefined, onlyChanged);
             obj.a.b = obj.a.b;
-            equal(result, true); // 当 onlyChanged 为 false 时，值没有变化也会调用回调函数。
+            equal(result, true);
         }
     });
 });
