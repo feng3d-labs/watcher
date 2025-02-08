@@ -1,7 +1,7 @@
 {
   "name": "@feng3d/watcher",
   "version": "0.5.0",
-  "description": "对象属性监听器",
+  "description": "对象属性监听器1",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "bundle": "dist/index.js",
@@ -18,7 +18,7 @@
     "lint": "eslint --ext .js --ext .ts src test rollup.config.js --ignore-path .gitignore --max-warnings 0",
     "lintfix": "npm run lint -- --fix",
     "docs": "typedoc",
-    "release":"npm run build:prod && npm publish"
+    "release": "npm run build:prod && npm publish"
   },
   "repository": {
     "type": "git",
