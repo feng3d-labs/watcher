@@ -1,5 +1,17 @@
 # @feng3d/watcher
+
 用于监听对象属性的变化以及同步两个对象的属性值。
+
+## 网站
+
+https://feng3d.com/watcher
+
+## 安装
+```
+npm install @feng3d/watcher
+```
+
+## 示例
 
 ### 监听对象属性的变化
 ```
