@@ -2,6 +2,10 @@
 
 用于监听对象属性的变化以及同步两个对象的属性值。
 
+源码：https://gitee.com/feng3d/watcher
+
+文档：https://feng3d.com/watcher
+
 ## 网站
 
 https://feng3d.com/watcher

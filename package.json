@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.8.8",
   "description": "对象属性监听器",
+  "homepage": "https://feng3d.com/watcher",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "module": "./src/index.ts",
@@ -25,6 +26,7 @@
     "lint": "eslint --ext .js --ext .ts src test --ignore-path .gitignore --max-warnings 0",
     "lintfix": "npm run lint -- --fix",
     "docs": "typedoc",
+    "upload_oss": "npm run docs && feng3d-cli oss_upload_dir",
     "release": "npm run clean && npm run lint && npm run build && npm run docs && npm run types && npm publish",
     "prepublishOnly": "node scripts/prepublish.js",
     "postpublish": "node scripts/postpublish.js"
@@ -44,6 +46,7 @@
     "tsconfig.json"
   ],
   "devDependencies": {
+    "@feng3d/cli": "^0.0.19",
     "@typescript-eslint/eslint-plugin": "5.17.0",
     "@typescript-eslint/parser": "5.17.0",
     "@vitest/ui": "^0.32.2",
