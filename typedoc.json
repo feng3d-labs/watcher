@@ -4,6 +4,6 @@
     "entryPoints": [
         "src/index.ts"
     ],
-    "sourceLinkTemplate": "https://gitlab.com/feng3d/watcher/tree/master/{path}#L{line}",
+    "sourceLinkTemplate": "https://gitee.com/feng3d/watcher/tree/master/{path}#L{line}",
     "out": "public"
 }
