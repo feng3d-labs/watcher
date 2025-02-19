@@ -2,8 +2,28 @@ import { watcher } from '../src/watcher';
 
 import { assert, describe, it } from 'vitest';
 
-describe('onlyChanged', () =>
+describe('watch', () =>
 {
+    it('多次监听同一属性，回调中移除监听 watch', () =>
+    {
+        const obj = { a: Math.random() };
+        let callCount = 0;
+        const handler = () =>
+        {
+            callCount++;
+            watcher.unwatch(obj, 'a', handler);
+        };
+        const handler1 = () =>
+        {
+            callCount++;
+            watcher.unwatch(obj, 'a', handler1);
+        };
+        watcher.watch(obj, 'a', handler);
+        watcher.watch(obj, 'a', handler1);
+        obj.a++;    // 触发两个不同回调
+        assert.equal(callCount, 2);
+    });
+
     it('onlyChanged watch', () =>
     {
         {

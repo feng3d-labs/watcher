@@ -430,7 +430,7 @@ const __watchchains__ = '__watchchains__';
 function notifyListener(newValue: any, oldValue: any, host: any, property: string): void
 {
     const watchs: Watchs = host[__watchs__];
-    const handlers = watchs[property].handlers;
+    const handlers = watchs[property].handlers.concat(); // 避免watchs.handlers被修改
 
     handlers.forEach((element) =>
     {
