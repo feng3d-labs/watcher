@@ -20,7 +20,7 @@ describe('watch', () =>
         };
         watcher.watch(obj, 'a', handler);
         watcher.watch(obj, 'a', handler1);
-        obj.a++;    // 触发两个不同回调
+        obj.a++; // 触发两个不同回调
         assert.equal(callCount, 2);
     });
 
