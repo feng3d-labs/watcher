@@ -1,7 +1,6 @@
 import { watcher } from '../src/watcher';
 
 import { assert, describe, it } from 'vitest';
-const { ok, equal, deepEqual } = assert;
 
 describe('watcher.watchobject transform', () =>
 {
@@ -27,25 +26,25 @@ describe('watcher.watchobject transform', () =>
         //
         changeCount = 0;
         transform.position.x = Math.random();
-        equal(changeCount, 1); // 触发改变一次
+        assert.equal(changeCount, 1); // 触发改变一次
 
         changeCount = 0;
         transform.position.x = transform.position.x + 0;
-        equal(changeCount, 0); // 赋予相同的值不会触发改变
+        assert.equal(changeCount, 0); // 赋予相同的值不会触发改变
 
         changeCount = 0;
         transform.position = { x: Math.random(), y: Math.random(), z: Math.random() };
-        equal(changeCount, 3); // x、y、z均改变
+        assert.equal(changeCount, 3); // x、y、z均改变
 
         changeCount = 0;
         transform.position = { x: transform.position.x, y: transform.position.y, z: transform.position.z };
-        equal(changeCount, 0); // x、y、z均未改变
+        assert.equal(changeCount, 0); // x、y、z均未改变
 
         // 移除监听变化
         watcher.unwatchobject(transform, { position: { x: 0, y: 0, z: 0 }, angle: { x: 0, y: 0, z: 0 }, scale: { x: 0, y: 0, z: 0 } }, onChanged);
 
         changeCount = 0;
         transform.position = { x: Math.random(), y: Math.random(), z: Math.random() };
-        equal(changeCount, 0); // 无法监听到x、y、z改变
+        assert.equal(changeCount, 0); // 无法监听到x、y、z改变
     });
 });

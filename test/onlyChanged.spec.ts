@@ -1,7 +1,6 @@
 import { watcher } from '../src/watcher';
 
 import { assert, describe, it } from 'vitest';
-const { ok, equal, deepEqual } = assert;
 
 describe('onlyChanged', () =>
 {
@@ -12,7 +11,7 @@ describe('onlyChanged', () =>
             let result = false;
             watcher.watch(obj, 'd', () => { result = true; });
             obj.d = obj.d;
-            equal(result, false);
+            assert.equal(result, false);
         }
 
         {
@@ -21,7 +20,7 @@ describe('onlyChanged', () =>
             let result = false;
             watcher.watch(obj, 'd', () => { result = true; }, undefined, onlyChanged);
             obj.d = obj.d;
-            equal(result, false);
+            assert.equal(result, false);
         }
 
         {
@@ -30,7 +29,7 @@ describe('onlyChanged', () =>
             let result = false;
             watcher.watch(obj, 'd', () => { result = true; }, undefined, onlyChanged);
             obj.d = obj.d;
-            equal(result, true);
+            assert.equal(result, true);
         }
     });
 
@@ -41,7 +40,7 @@ describe('onlyChanged', () =>
             let result = false;
             watcher.watchchain(obj, 'a.b', () => { result = true; });
             obj.a.b = obj.a.b;
-            equal(result, false);
+            assert.equal(result, false);
         }
 
         {
@@ -50,7 +49,7 @@ describe('onlyChanged', () =>
             let result = false;
             watcher.watchchain(obj, 'a.b', () => { result = true; }, undefined, onlyChanged);
             obj.a.b = obj.a.b;
-            equal(result, false);
+            assert.equal(result, false);
         }
 
         {
@@ -60,22 +59,22 @@ describe('onlyChanged', () =>
             const handler = () => { result = true; };
             watcher.watchchain(obj, 'a.b', handler, undefined, onlyChanged);
             obj.a.b = obj.a.b;
-            equal(result, true);
+            assert.equal(result, true);
 
             //
             result = false;
             obj.a = { b: obj.a.b };
-            equal(result, true);
+            assert.equal(result, true);
 
             //
             result = false;
             obj.a.b = obj.a.b;
-            equal(result, true);
+            assert.equal(result, true);
 
             watcher.unwatchchain(obj, 'a.b', handler, undefined);
             result = false;
             obj.a = { b: obj.a.b };
-            equal(result, false);
+            assert.equal(result, false);
         }
     });
 
@@ -86,7 +85,7 @@ describe('onlyChanged', () =>
             let result = false;
             watcher.watchobject(obj, { a: { b: undefined } }, () => { result = true; });
             obj.a.b = obj.a.b;
-            equal(result, false);
+            assert.equal(result, false);
         }
 
         {
@@ -95,7 +94,7 @@ describe('onlyChanged', () =>
             let result = false;
             watcher.watchobject(obj, { a: { b: undefined } }, () => { result = true; }, undefined, onlyChanged);
             obj.a.b = obj.a.b;
-            equal(result, false);
+            assert.equal(result, false);
         }
 
         {
@@ -104,7 +103,7 @@ describe('onlyChanged', () =>
             let result = false;
             watcher.watchobject(obj, { a: { b: undefined } }, () => { result = true; }, undefined, onlyChanged);
             obj.a.b = obj.a.b;
-            equal(result, true);
+            assert.equal(result, true);
         }
     });
 });
