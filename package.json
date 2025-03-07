@@ -1,7 +1,7 @@
 {
   "name": "@feng3d/watcher",
   "type": "module",
-  "version": "0.8.9",
+  "version": "0.8.10",
   "description": "对象属性监听器",
   "homepage": "https://feng3d.com/watcher",
   "main": "./src/index.ts",
