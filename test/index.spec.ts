@@ -105,36 +105,36 @@ describe('watcher', () =>
         equal(out, 'fff', out);
     });
 
-    // it('bind unbind', () =>
-    // {
-    //     const vec2 = new Vector2();
-    //     const vec3 = new Vector3();
-    //     const vec4 = new Vector4();
+    it('bind unbind', () =>
+    {
+        const vec2 = { x: 0, y: 0 };// new Vector2();
+        const vec3 = { x: 0, y: 0, z: 0 };// new Vector3();
+        const vec4 = { x: 0, y: 0, z: 0, w: 0 };// new Vector4();
 
-    //     watcher.bind(vec2, 'x', vec3, 'x');
-    //     watcher.bind(vec2, 'x', vec4, 'x');
+        watcher.bind(vec2, 'x', vec3, 'x');
+        watcher.bind(vec2, 'x', vec4, 'x');
 
-    //     let v = Math.random();
+        let v = Math.random();
 
-    //     vec2.x = v;
-    //     equal(vec2.x, v);
-    //     equal(vec2.x, vec3.x);
-    //     equal(vec2.x, vec4.x);
+        vec2.x = v;
+        equal(vec2.x, v);
+        equal(vec2.x, vec3.x);
+        equal(vec2.x, vec4.x);
 
-    //     vec4.x = v = Math.random();
-    //     equal(vec2.x, v);
-    //     equal(vec2.x, vec3.x);
-    //     equal(vec2.x, vec4.x);
+        vec4.x = v = Math.random();
+        equal(vec2.x, v);
+        equal(vec2.x, vec3.x);
+        equal(vec2.x, vec4.x);
 
-    //     watcher.unbind(vec3, 'x', vec2, 'x');
-    //     watcher.unbind(vec2, 'x', vec4, 'x');
+        watcher.unbind(vec3, 'x', vec2, 'x');
+        watcher.unbind(vec2, 'x', vec4, 'x');
 
-    //     vec4.x = v = Math.random();
-    //     equal(vec4.x, v);
-    //     equal(vec2.x, vec3.x);
+        vec4.x = v = Math.random();
+        equal(vec4.x, v);
+        equal(vec2.x, vec3.x);
 
-    //     ok(vec2.x !== v);
-    // });
+        assert.ok(vec2.x !== v);
+    });
 
     it('watchobject', () =>
     {

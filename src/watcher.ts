@@ -45,8 +45,11 @@ export class Watcher
      * @param thisObject 变化回调函数 this值
      * @param onlyChanged 值为 true 时表示只在变化时才触发回调函数，否则只要被赋值就触发回调函数。默认为 true 。
      */
-    watch<T, K extends PropertyNames<T>, V extends T[K]>(object: T, property: K, handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any, onlyChanged = true)
+    watch<T, K extends PropertyNames<T>, V extends T[K]>(object: T, property: K, handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any, onlyChanged = true, topObject?: any, fullProperty?: string)
     {
+        topObject = topObject || object;
+        fullProperty = fullProperty || property as string;
+
         if (!Object.getOwnPropertyDescriptor(object, __watchs__))
         {
             Object.defineProperty(object, __watchs__, {
@@ -77,7 +80,7 @@ export class Watcher
                     const oldValue = this[_property];
 
                     orgSet && orgSet.call(this, value);
-                    notifyListener(value, oldValue, this, _property);
+                    notifyListener(value, oldValue, this, _property, topObject, fullProperty);
                 };
             }
             else if (!data || (!data.get && !data.set))
@@ -92,7 +95,7 @@ export class Watcher
                     const oldValue = this[__watchs__][_property].value;
 
                     this[__watchs__][_property].value = value;
-                    notifyListener(value, oldValue, this, _property);
+                    notifyListener(value, oldValue, this, _property, topObject, fullProperty);
                 };
             }
             else
@@ -262,13 +265,16 @@ export class Watcher
      * @param thisObject 变化回调函数 this值
      * @param onlyChanged 值为 true 时表示只在变化时才触发回调函数，否则只要被赋值就触发回调函数。默认为 true 。
      */
-    watchchain(object: any, property: string, handler: (newValue: any, oldValue: any, object: any, property: string) => void, thisObject?: any, onlyChanged = true)
+    watchchain(object: any, property: string, handler: (newValue: any, oldValue: any, object: any, property: string) => void, thisObject?: any, onlyChanged = true, topObject?: any, fullProperty?: string)
     {
+        topObject = topObject || object;
+        fullProperty = fullProperty || property;
+
         const notIndex = property.indexOf('.');
 
         if (notIndex === -1)
         {
-            this.watch(object, property, handler, thisObject, onlyChanged);
+            this.watch(object, property, handler, thisObject, onlyChanged, topObject, fullProperty);
 
             return;
         }
@@ -294,21 +300,21 @@ export class Watcher
 
             if (object[currentp])
             {
-                this.watchchain(object[currentp], nextp, handler, thisObject, onlyChanged);
+                this.watchchain(object[currentp], nextp, handler, thisObject, onlyChanged, topObject, fullProperty);
             }
 
             // 添加链监听
             const watchchainFun = (newValue: any, oldValue: any) =>
             {
                 if (oldValue) this.unwatchchain(oldValue, nextp, handler, thisObject);
-                if (newValue) this.watchchain(newValue, nextp, handler, thisObject, onlyChanged);
+                if (newValue) this.watchchain(newValue, nextp, handler, thisObject, onlyChanged, topObject, fullProperty);
                 // 当更换对象且监听值发生改变时触发处理函数
                 const ov = getObjectPropertyValue(oldValue, nextp);
                 const nv = getObjectPropertyValue(newValue, nextp);
 
                 if (!onlyChanged || ov !== nv)
                 {
-                    handler.call(thisObject, nv, ov, newValue, nextp);
+                    handler.call(thisObject, nv, ov, topObject, fullProperty);
                 }
             };
 
@@ -427,8 +433,11 @@ interface WatchChains
 const __watchs__ = '__watchs__';
 const __watchchains__ = '__watchchains__';
 
-function notifyListener(newValue: any, oldValue: any, host: any, property: string): void
+function notifyListener(newValue: any, oldValue: any, host: any, property: string, topObject?: any, fullProperty?: string): void
 {
+    topObject = topObject || host;
+    fullProperty = fullProperty || property;
+    //
     const watchs: Watchs = host[__watchs__];
     const handlers = watchs[property].handlers.concat(); // 避免watchs.handlers被修改
 
@@ -436,7 +445,7 @@ function notifyListener(newValue: any, oldValue: any, host: any, property: strin
     {
         if (!element.onlyChanged || newValue !== oldValue)
         {
-            element.handler.call(element.thisObject, newValue, oldValue, host, property);
+            element.handler.call(element.thisObject, newValue, oldValue, topObject, fullProperty);
         }
     });
 }

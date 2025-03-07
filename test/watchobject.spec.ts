@@ -12,7 +12,6 @@ describe('watcher.watchobject transform', () =>
 
         const handler = (newValue: any, oldValue: any, host: any, property: string) =>
         {
-            console.log(`host`, host);
             assert.deepEqual(host, a);
             result.push(`transform changed: ${property} = ${JSON.stringify(oldValue)} -> ${JSON.stringify(newValue)}`);
         }
@@ -25,14 +24,14 @@ describe('watcher.watchobject transform', () =>
         a.a1.a2 = null as any;
 
         assert.deepEqual(result, [
-            "transform changed: a2.a3.a4.a5.a6.a7.a8.a9.a10.a11.a12.a13.a14.a15.a16.a17.a18.a19.a20.a21.a22.a23.a24.a25.a26 = 1 -> undefined",
+            "transform changed: a1.a2.a3.a4.a5.a6.a7.a8.a9.a10.a11.a12.a13.a14.a15.a16.a17.a18.a19.a20.a21.a22.a23.a24.a25.a26 = 1 -> undefined",
         ]);
 
         result.length = 0;
         a.a1.a2 = a2;
 
         assert.deepEqual(result, [
-            "transform changed: a2.a3.a4.a5.a6.a7.a8.a9.a10.a11.a12.a13.a14.a15.a16.a17.a18.a19.a20.a21.a22.a23.a24.a25.a26 = undefined -> 1",
+            "transform changed: a1.a2.a3.a4.a5.a6.a7.a8.a9.a10.a11.a12.a13.a14.a15.a16.a17.a18.a19.a20.a21.a22.a23.a24.a25.a26 = undefined -> 1",
         ])
 
     });
@@ -77,10 +76,10 @@ describe('watcher.watchobject transform', () =>
         result.length = 0;
         material.defines = null as any;
         assert.deepEqual(result, [
-            `transform changed: FOO = 1 -> undefined`,
-            `transform changed: BAR = 2 -> undefined`,
-            `transform changed: FOO = 1 -> undefined`,
-            `transform changed: BAR = 2 -> undefined`,
+            `transform changed: defines.FOO = 1 -> undefined`,
+            `transform changed: defines.BAR = 2 -> undefined`,
+            `transform changed: defines.FOO = 1 -> undefined`,
+            `transform changed: defines.BAR = 2 -> undefined`,
         ]);
 
         result.length = 0;
@@ -90,10 +89,10 @@ describe('watcher.watchobject transform', () =>
         };
 
         assert.deepEqual(result, [
-            "transform changed: FOO = undefined -> 1",
-            "transform changed: BAR = undefined -> 2",
-            "transform changed: FOO = undefined -> 1",
-            "transform changed: BAR = undefined -> 2",
+            "transform changed: defines.FOO = undefined -> 1",
+            "transform changed: defines.BAR = undefined -> 2",
+            "transform changed: defines.FOO = undefined -> 1",
+            "transform changed: defines.BAR = undefined -> 2",
         ]);
 
         watcher.unwatchobject(material, {
@@ -107,8 +106,8 @@ describe('watcher.watchobject transform', () =>
         result.length = 0;
         material.defines = null as any;
         assert.deepEqual(result, [
-            "transform changed: FOO = 1 -> undefined",
-            "transform changed: BAR = 2 -> undefined",
+            "transform changed: defines.FOO = 1 -> undefined",
+            "transform changed: defines.BAR = 2 -> undefined",
         ]);
 
         result.length = 0;
@@ -117,8 +116,8 @@ describe('watcher.watchobject transform', () =>
             'BAR': 2,
         };
         assert.deepEqual(result, [
-            "transform changed: FOO = undefined -> 1",
-            "transform changed: BAR = undefined -> 2",
+            "transform changed: defines.FOO = undefined -> 1",
+            "transform changed: defines.BAR = undefined -> 2",
         ]);
     });
 
