@@ -80,6 +80,7 @@ export class Watcher
             off: () =>
             {
                 offFuncs.forEach(func => func());
+                offFuncs.length = 0;
             },
         };
 
@@ -472,6 +473,9 @@ export class Watcher
 
 export const watcher = new Watcher();
 
+/**
+ * WatchSession 提供了多种监听方法，并且可以通过 `off` 方法一次性取消所有监听
+ */
 interface WatchSession
 {
     /**
