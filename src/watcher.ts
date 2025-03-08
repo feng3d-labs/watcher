@@ -34,6 +34,14 @@ type NonTypePropertyNames<T, KT> = { [K in keyof T]: T[K] extends KT ? never : K
  */
 export class Watcher
 {
+
+    on(): WatchInfo
+    {
+
+
+
+    }
+
     /**
      * 监听对象属性的变化
      *
@@ -419,6 +427,11 @@ export class Watcher
 }
 
 export const watcher = new Watcher();
+
+interface WatchInfo extends Watcher
+{
+    off(): void;
+}
 
 interface Watchs
 {
