@@ -34,12 +34,48 @@ type NonTypePropertyNames<T, KT> = { [K in keyof T]: T[K] extends KT ? never : K
  */
 export class Watcher
 {
-
     on(): WatchInfo
     {
+        const offFuncs: (() => void)[] = [];
 
+        const watchInfo: WatchInfo = {
+            watch: (object, property, handler, thisObject, onlyChanged = true, topObject, fullProperty) =>
+            {
+                this.watch(object, property, handler, thisObject, onlyChanged, topObject, fullProperty);
+                offFuncs.push(() => this.unwatch(object, property, handler, thisObject));
+                return watchInfo;
+            },
+            watchs: (object, propertys, handler, thisObject, onlyChanged): WatchInfo =>
+            {
+                this.watchs(object, propertys, handler, thisObject, onlyChanged);
+                offFuncs.push(() => this.unwatchs(object, propertys, handler, thisObject));
+                return watchInfo;
+            },
+            bind: (object0, property0, object1, property1) =>
+            {
+                this.bind(object0, property0, object1, property1);
+                offFuncs.push(() => this.unbind(object0, property0, object1, property1));
+                return watchInfo;
+            },
+            watchchain: (object, property, handler, thisObject, onlyChanged = true, topObject, fullProperty) =>
+            {
+                this.watchchain(object, property, handler, thisObject, onlyChanged, topObject, fullProperty);
+                offFuncs.push(() => this.unwatchchain(object, property, handler, thisObject));
+                return watchInfo;
+            },
+            watchobject: (object, property, handler, thisObject, onlyChanged = true) =>
+            {
+                this.watchobject(object, property, handler, thisObject, onlyChanged);
+                offFuncs.push(() => this.unwatchobject(object, property, handler, thisObject));
+                return watchInfo;
+            },
+            off: () =>
+            {
+                offFuncs.forEach(func => func());
+            },
+        };
 
-
+        return watchInfo;
     }
 
     /**
@@ -428,8 +464,13 @@ export class Watcher
 
 export const watcher = new Watcher();
 
-interface WatchInfo extends Watcher
+interface WatchInfo
 {
+    watch<T, K extends PropertyNames<T>, V extends T[K]>(object: T, property: K, handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any, onlyChanged?: boolean, topObject?: any, fullProperty?: string): WatchInfo;
+    watchs<T, K extends PropertyNames<T>, V extends T[K]>(object: T, propertys: K[], handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any, onlyChanged?: boolean): WatchInfo;
+    bind<T0, T1, K0 extends PropertyNames<T0>, K1 extends PropertyNames<T1>>(object0: T0, property0: K0, object1: T1, property1: K1): WatchInfo;
+    watchchain(object: any, property: string, handler: (newValue: any, oldValue: any, object: any, property: string) => void, thisObject?: any, onlyChanged?: boolean, topObject?: any, fullProperty?: string): WatchInfo;
+    watchobject<T>(object: T, property: gPartial<T>, handler: (newValue: any, oldValue: any, host: any, property: string) => void, thisObject?: any, onlyChanged?: boolean): WatchInfo;
     off(): void;
 }
 
