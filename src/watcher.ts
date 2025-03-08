@@ -153,7 +153,7 @@ export class Watcher
             }
             else
             {
-                console.warn(`watch ${object} . ${_property} 失败！`);
+                console.warn(`无法修改监听属性的描述，监听失败！`, object, _property, handler, thisObject);
 
                 return;
             }
@@ -166,6 +166,10 @@ export class Watcher
         if (!has)
         {
             propertywatchs.handlers.push({ handler, thisObject, onlyChanged });
+        }
+        else
+        {
+            console.warn(`重复监听， 监听失败！`, object, _property, handler, thisObject);
         }
     }
 
