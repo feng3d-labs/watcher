@@ -37,7 +37,7 @@ export class Watcher
     /**
      * 创建一个 WatchSession 对象，用于监听对象属性的变化。
      * WatchSession 提供了多种监听方法，并且可以通过 `off` 方法一次性取消所有监听。
-     * 
+     *
      * @returns {WatchSession} 返回一个包含监听方法和取消监听方法的 WatchSession 对象。
      */
     on(): WatchSession
@@ -51,35 +51,40 @@ export class Watcher
             {
                 this.watch(object, property, handler, thisObject, onlyChanged, topObject, fullProperty);
                 offFuncs.push(() => this.unwatch(object, property, handler, thisObject));
-                return watchInfo;
+
+return watchInfo;
             },
             watchs: (object, propertys, handler, thisObject, onlyChanged): WatchSession =>
             {
                 this.watchs(object, propertys, handler, thisObject, onlyChanged);
                 offFuncs.push(() => this.unwatchs(object, propertys, handler, thisObject));
-                return watchInfo;
+
+return watchInfo;
             },
             bind: (object0, property0, object1, property1) =>
             {
                 this.bind(object0, property0, object1, property1);
                 offFuncs.push(() => this.unbind(object0, property0, object1, property1));
-                return watchInfo;
+
+return watchInfo;
             },
             watchchain: (object, property, handler, thisObject, onlyChanged = true, topObject, fullProperty) =>
             {
                 this.watchchain(object, property, handler, thisObject, onlyChanged, topObject, fullProperty);
                 offFuncs.push(() => this.unwatchchain(object, property, handler, thisObject));
-                return watchInfo;
+
+return watchInfo;
             },
             watchobject: (object, property, handler, thisObject, onlyChanged = true) =>
             {
                 this.watchobject(object, property, handler, thisObject, onlyChanged);
                 offFuncs.push(() => this.unwatchobject(object, property, handler, thisObject));
-                return watchInfo;
+
+return watchInfo;
             },
             off: () =>
             {
-                offFuncs.forEach(func => func());
+                offFuncs.forEach((func) => func());
                 offFuncs.length = 0;
             },
         };
@@ -484,7 +489,7 @@ interface WatchSession
 {
     /**
      * 监听对象的某个属性变化。
-     * 
+     *
      * @param object - 要监听的对象。
      * @param property - 要监听的属性名。
      * @param handler - 属性变化时的回调函数。
@@ -497,7 +502,7 @@ interface WatchSession
     watch<T, K extends PropertyNames<T>, V extends T[K]>(object: T, property: K, handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any, onlyChanged?: boolean, topObject?: any, fullProperty?: string): WatchSession;
     /**
      * 监听对象的多个属性变化。
-     * 
+     *
      * @param object - 要监听的对象。
      * @param propertys - 要监听的属性名数组。
      * @param handler - 属性变化时的回调函数。
@@ -508,7 +513,7 @@ interface WatchSession
     watchs<T, K extends PropertyNames<T>, V extends T[K]>(object: T, propertys: K[], handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any, onlyChanged?: boolean): WatchSession;
     /**
      * 绑定两个对象的属性，使它们的值保持同步。
-     * 
+     *
      * @param object0 - 第一个对象。
      * @param property0 - 第一个对象的属性名。
      * @param object1 - 第二个对象。
@@ -518,7 +523,7 @@ interface WatchSession
     bind<T0, T1, K0 extends PropertyNames<T0>, K1 extends PropertyNames<T1>>(object0: T0, property0: K0, object1: T1, property1: K1): WatchSession;
     /**
      * 监听对象属性的链式变化。
-     * 
+     *
      * @param object - 要监听的对象。
      * @param property - 要监听的属性名。
      * @param handler - 属性变化时的回调函数。
@@ -531,7 +536,7 @@ interface WatchSession
     watchchain(object: any, property: string, handler: (newValue: any, oldValue: any, object: any, property: string) => void, thisObject?: any, onlyChanged?: boolean, topObject?: any, fullProperty?: string): WatchSession;
     /**
      * 监听对象的整个对象变化。
-     * 
+     *
      * @param object - 要监听的对象。
      * @param property - 要监听的属性名。
      * @param handler - 属性变化时的回调函数。

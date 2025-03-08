@@ -14,14 +14,13 @@ describe('Watcher.watch', () =>
         //
         let warn: any;
         const oldWarn = console.warn;
-        console.warn = (...args: any) => { warn = args };
+        console.warn = (...args: any) => { warn = args; };
 
         watcher.watch(o, 'a', f);
         watcher.watch(o, 'a', f);
 
         console.warn = oldWarn;
 
-        assert.equal(!!warn, true);        // 有警告
-
+        assert.equal(!!warn, true); // 有警告
     });
 });
