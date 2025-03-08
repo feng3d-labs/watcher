@@ -34,10 +34,18 @@ type NonTypePropertyNames<T, KT> = { [K in keyof T]: T[K] extends KT ? never : K
  */
 export class Watcher
 {
+    /**
+     * 创建一个 WatchSession 对象，用于监听对象属性的变化。
+     * WatchSession 提供了多种监听方法，并且可以通过 `off` 方法一次性取消所有监听。
+     * 
+     * @returns {WatchSession} 返回一个包含监听方法和取消监听方法的 WatchSession 对象。
+     */
     on(): WatchSession
     {
+        // 用于存储所有取消监听的函数
         const offFuncs: (() => void)[] = [];
 
+        // 创建 WatchSession 对象，包含多种监听方法和取消监听的方法
         const watchInfo: WatchSession = {
             watch: (object, property, handler, thisObject, onlyChanged = true, topObject, fullProperty) =>
             {
@@ -466,11 +474,67 @@ export const watcher = new Watcher();
 
 interface WatchSession
 {
+    /**
+     * 监听对象的某个属性变化。
+     * 
+     * @param object - 要监听的对象。
+     * @param property - 要监听的属性名。
+     * @param handler - 属性变化时的回调函数。
+     * @param thisObject - 回调函数的上下文对象。
+     * @param onlyChanged - 是否仅在属性值变化时触发回调，默认为 true。
+     * @param topObject - 顶层对象，用于链式监听。
+     * @param fullProperty - 完整属性路径，用于链式监听。
+     * @returns 返回当前的 WatchSession 对象，支持链式调用。
+     */
     watch<T, K extends PropertyNames<T>, V extends T[K]>(object: T, property: K, handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any, onlyChanged?: boolean, topObject?: any, fullProperty?: string): WatchSession;
+    /**
+     * 监听对象的多个属性变化。
+     * 
+     * @param object - 要监听的对象。
+     * @param propertys - 要监听的属性名数组。
+     * @param handler - 属性变化时的回调函数。
+     * @param thisObject - 回调函数的上下文对象。
+     * @param onlyChanged - 是否仅在属性值变化时触发回调，默认为 true。
+     * @returns 返回当前的 WatchSession 对象，支持链式调用。
+     */
     watchs<T, K extends PropertyNames<T>, V extends T[K]>(object: T, propertys: K[], handler: (newValue: V, oldValue: V, object: T, property: string) => void, thisObject?: any, onlyChanged?: boolean): WatchSession;
+    /**
+     * 绑定两个对象的属性，使它们的值保持同步。
+     * 
+     * @param object0 - 第一个对象。
+     * @param property0 - 第一个对象的属性名。
+     * @param object1 - 第二个对象。
+     * @param property1 - 第二个对象的属性名。
+     * @returns 返回当前的 WatchSession 对象，支持链式调用。
+     */
     bind<T0, T1, K0 extends PropertyNames<T0>, K1 extends PropertyNames<T1>>(object0: T0, property0: K0, object1: T1, property1: K1): WatchSession;
+    /**
+     * 监听对象属性的链式变化。
+     * 
+     * @param object - 要监听的对象。
+     * @param property - 要监听的属性名。
+     * @param handler - 属性变化时的回调函数。
+     * @param thisObject - 回调函数的上下文对象。
+     * @param onlyChanged - 是否仅在属性值变化时触发回调，默认为 true。
+     * @param topObject - 顶层对象，用于链式监听。
+     * @param fullProperty - 完整属性路径，用于链式监听。
+     * @returns 返回当前的 WatchSession 对象，支持链式调用。
+     */
     watchchain(object: any, property: string, handler: (newValue: any, oldValue: any, object: any, property: string) => void, thisObject?: any, onlyChanged?: boolean, topObject?: any, fullProperty?: string): WatchSession;
+    /**
+     * 监听对象的整个对象变化。
+     * 
+     * @param object - 要监听的对象。
+     * @param property - 要监听的属性名。
+     * @param handler - 属性变化时的回调函数。
+     * @param thisObject - 回调函数的上下文对象。
+     * @param onlyChanged - 是否仅在属性值变化时触发回调，默认为 true。
+     * @returns 返回当前的 WatchSession 对象，支持链式调用。
+     */
     watchobject<T>(object: T, property: gPartial<T>, handler: (newValue: any, oldValue: any, host: any, property: string) => void, thisObject?: any, onlyChanged?: boolean): WatchSession;
+    /**
+     * 取消所有通过当前 WatchSession 对象设置的监听。
+     */
     off(): void;
 }
 
