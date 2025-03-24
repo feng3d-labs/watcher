@@ -52,35 +52,35 @@ export class Watcher
                 this.watch(object, property, handler, thisObject, onlyChanged, topObject, fullProperty);
                 offFuncs.push(() => this.unwatch(object, property, handler, thisObject));
 
-return watchInfo;
+                return watchInfo;
             },
             watchs: (object, propertys, handler, thisObject, onlyChanged): WatchSession =>
             {
                 this.watchs(object, propertys, handler, thisObject, onlyChanged);
                 offFuncs.push(() => this.unwatchs(object, propertys, handler, thisObject));
 
-return watchInfo;
+                return watchInfo;
             },
             bind: (object0, property0, object1, property1) =>
             {
                 this.bind(object0, property0, object1, property1);
                 offFuncs.push(() => this.unbind(object0, property0, object1, property1));
 
-return watchInfo;
+                return watchInfo;
             },
             watchchain: (object, property, handler, thisObject, onlyChanged = true, topObject, fullProperty) =>
             {
                 this.watchchain(object, property, handler, thisObject, onlyChanged, topObject, fullProperty);
                 offFuncs.push(() => this.unwatchchain(object, property, handler, thisObject));
 
-return watchInfo;
+                return watchInfo;
             },
             watchobject: (object, property, handler, thisObject, onlyChanged = true) =>
             {
                 this.watchobject(object, property, handler, thisObject, onlyChanged);
                 offFuncs.push(() => this.unwatchobject(object, property, handler, thisObject));
 
-return watchInfo;
+                return watchInfo;
             },
             off: () =>
             {
@@ -485,7 +485,7 @@ export const watcher = new Watcher();
 /**
  * WatchSession 提供了多种监听方法，并且可以通过 `off` 方法一次性取消所有监听
  */
-interface WatchSession
+export interface WatchSession
 {
     /**
      * 监听对象的某个属性变化。
