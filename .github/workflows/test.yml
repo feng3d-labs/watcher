@@ -39,3 +39,20 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./public
+
+    - name: Check npm version
+      id: check-npm-version
+      run: |
+        CURRENT_VERSION=$(node -p "require('./package.json').version")
+        PUBLISHED_VERSION=$(npm view . version 2>/dev/null || echo "0.0.0")
+        if [ "$CURRENT_VERSION" != "$PUBLISHED_VERSION" ]; then
+          echo "::set-output name=publish::true"
+        else
+          echo "::set-output name=publish::false"
+        fi
+
+    - name: Publish to npm
+      if: steps.check-npm-version.outputs.publish == 'true'
+      run: |
+        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+        npm run release
